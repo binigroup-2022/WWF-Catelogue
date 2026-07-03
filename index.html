@@ -316,7 +316,6 @@
         // ===== SCROLL-DRIVEN FEATURE: HEADING → IMAGE → GLASS → TEXT =====
         (function () {
             const featureBlocks = document.querySelectorAll('.feature-block');
-            const vh = window.innerHeight;
 
             function updateFeatures() {
                 featureBlocks.forEach(block => {
@@ -325,74 +324,51 @@
                     if (!imageWrapper || !text) return;
 
                     const blockRect = block.getBoundingClientRect();
+                    const imgRect = imageWrapper.getBoundingClientRect();
+                    const textRect = text.getBoundingClientRect();
                     const viewportH = window.innerHeight;
 
-                    // scrolledInto = how many px the block top has scrolled above viewport top
-                    // 0 means block top is at viewport top
-                    // Negative means block hasn't reached top yet
-                    const scrolledInto = -blockRect.top;
-
-                    // === PHASE THRESHOLDS (in px scrolled past block top) ===
-                    // Phase 1: 0 → vh*0.6    → Heading sticks, image scrolls into view
-                    // Phase 2: vh*0.6 → vh*1.5 → Image is FULLY visible and sticking (user sees it clear)
-                    // Phase 3: vh*1.5 → vh*2.0 → Image progressively gets glassed/blurred
-                    // Phase 4: vh*2.0 → end    → Text fades in over the blurred image
-
-                    const imageVisibleEnd = viewportH * 1.5;   // End of clear image phase
-                    const glassEnd = viewportH * 2.0;           // End of glass transition
-                    const textEnd = viewportH * 2.5;            // Text fully visible
-
-                    let blurAmount = 0;
-                    let imgOpacity = 1;
-                    let textOpacity = 0;
-                    let textY = 30;
-
-                    if (scrolledInto <= imageVisibleEnd) {
-                        // Phase 1 & 2: Image is clear, no blur, no text
-                        blurAmount = 0;
-                        imgOpacity = 1;
-                        textOpacity = 0;
-                        textY = 30;
-                    } else if (scrolledInto <= glassEnd) {
-                        // Phase 3: Glass/blur transition
-                        const t = (scrolledInto - imageVisibleEnd) / (glassEnd - imageVisibleEnd);
-                        blurAmount = t * 10;
-                        imgOpacity = 1 - t * 0.35;
-                        textOpacity = 0;
-                        textY = 30;
-                    } else if (scrolledInto <= textEnd) {
-                        // Phase 4: Text fades in
-                        const t = (scrolledInto - glassEnd) / (textEnd - glassEnd);
-                        blurAmount = 10;
-                        imgOpacity = 0.65;
-                        textOpacity = t;
-                        textY = 30 - t * 30;
-                    } else if (scrolledInto > 0) {
-                        // Everything settled
-                        blurAmount = 10;
-                        imgOpacity = 0.65;
-                        textOpacity = 1;
-                        textY = 0;
-                    }
-
-                    // Reset if block is completely out of viewport
+                    // If block is completely out of viewport, reset
                     if (blockRect.bottom < 0 || blockRect.top > viewportH) {
                         imageWrapper.style.filter = 'none';
                         imageWrapper.style.opacity = 1;
                         text.style.opacity = 0;
-                        text.style.transform = 'translateY(30px)';
+                        text.style.transform = 'translateY(40px)';
                         return;
                     }
 
+                    // The image pins at top: 110px. Compute center of the pinned image.
+                    const imgCenterY = imgRect.top + imgRect.height / 2;
+                    const textTopY = textRect.top;
+
+                    // Measure distance between text top and image center
+                    const dist = textTopY - imgCenterY;
+
+                    // We trigger the blur and text fade when text top is within 400px of image center.
+                    // Fully complete when text is 80px below image center.
+                    const startDist = 400;
+                    const endDist = 80;
+
+                    let progress = 0;
+                    if (dist < startDist) {
+                        progress = (startDist - dist) / (startDist - endDist);
+                        progress = Math.max(0, Math.min(1, progress));
+                    }
+
+                    const blurAmount = progress * 12; // blur up to 12px
+                    const imgOpacity = 1 - progress * 0.45; // dim to 0.55
+
                     imageWrapper.style.filter = `blur(${blurAmount}px)`;
                     imageWrapper.style.opacity = imgOpacity;
-                    text.style.opacity = textOpacity;
-                    text.style.transform = `translateY(${textY}px)`;
+
+                    // Fade text in and slide up as user scrolls it up
+                    text.style.opacity = progress;
+                    text.style.transform = `translateY(${(1 - progress) * 40}px)`;
                 });
             }
 
             window.addEventListener('scroll', updateFeatures, { passive: true });
-            window.addEventListener('resize', () => updateFeatures());
+            window.addEventListener('resize', updateFeatures);
             updateFeatures();
         })();
 
