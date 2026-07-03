@@ -795,8 +795,9 @@ section {
     }
 
     .feature-block.stage-heading .feature-image-wrapper {
-        opacity: 0;
-        transform: translateY(60px) scale(0.9);
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        box-shadow: 0 30px 100px rgba(255, 214, 10, 0.14);
     }
 
     /* Stage 2: Image */
