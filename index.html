@@ -344,10 +344,9 @@
                     // Measure distance between text top and image center
                     const dist = textTopY - imgCenterY;
 
-                    // We trigger the blur and text fade when text top is within 400px of image center.
-                    // Fully complete when text is 80px below image center.
-                    const startDist = 400;
-                    const endDist = 80;
+                    // Extremely sharp 40px window for immediate snapping transition
+                    const startDist = 300;
+                    const endDist = 260;
 
                     let progress = 0;
                     if (dist < startDist) {
@@ -355,15 +354,15 @@
                         progress = Math.max(0, Math.min(1, progress));
                     }
 
-                    const blurAmount = progress * 12; // blur up to 12px
-                    const imgOpacity = 1 - progress * 0.45; // dim to 0.55
+                    const blurAmount = progress * 14; // blur up to 14px
+                    const imgOpacity = 1 - progress * 0.5; // dim to 0.50
 
                     imageWrapper.style.filter = `blur(${blurAmount}px)`;
                     imageWrapper.style.opacity = imgOpacity;
 
-                    // Fade text in and slide up as user scrolls it up
+                    // Fade text in and slide up immediately
                     text.style.opacity = progress;
-                    text.style.transform = `translateY(${(1 - progress) * 40}px)`;
+                    text.style.transform = `translateY(${(1 - progress) * 30}px)`;
                 });
             }
 
