@@ -360,6 +360,13 @@
             const heroIndicator = document.querySelector('.scroll-indicator');
 
             if (globalIndicator) {
+                globalIndicator.addEventListener('click', () => {
+                    window.scrollBy({
+                        top: window.innerHeight,
+                        behavior: 'smooth'
+                    });
+                });
+
                 window.addEventListener('scroll', () => {
                     const scrollY = window.scrollY;
                     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
