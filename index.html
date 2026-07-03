@@ -293,28 +293,28 @@
             });
         })();
 
-        // ===== SCROLL-DRIVEN FEATURE FOCUS OBSERVATION =====
+        // ===== SCROLL-DRIVEN FEATURE FOCUS TRANSITION =====
         (function () {
             const blocks = document.querySelectorAll('.feature-block');
-            
-            const observerOptions = {
-                root: null,
-                // Focus on the center area of the viewport (40% focus window)
-                rootMargin: '-30% 0px -30% 0px',
-                threshold: 0.15
-            };
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
+            function checkScroll() {
+                const viewportH = window.innerHeight;
+                blocks.forEach(block => {
+                    const rect = block.getBoundingClientRect();
+                    
+                    // Trigger active transition (blur + text overlay) only when the block top
+                    // has scrolled above 35% of the viewport height (ensuring it was seen clear first)
+                    if (rect.top < viewportH * 0.35 && rect.bottom > viewportH * 0.15) {
+                        block.classList.add('active');
                     } else {
-                        entry.target.classList.remove('active');
+                        block.classList.remove('active');
                     }
                 });
-            }, observerOptions);
+            }
 
-            blocks.forEach(block => observer.observe(block));
+            window.addEventListener('scroll', checkScroll, { passive: true });
+            window.addEventListener('resize', checkScroll);
+            checkScroll();
         })();
 
         // ===== GLOBAL SCROLL INDICATOR HIDE LOGIC =====
