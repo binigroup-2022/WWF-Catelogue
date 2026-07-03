@@ -113,9 +113,9 @@
             <h3 class="feature-heading">Spotlight</h3>
             <div class="feature-image-wrapper">
                 <img src="images/spotlight.png" alt="Spotlight feature - Swipe dish images">
+                <p class="feature-text">The users get to swipe the dish images in the spotlight page, making them explore
+                    your restaurant for the uniqueness you serve.</p>
             </div>
-            <p class="feature-text">The users get to swipe the dish images in the spotlight page, making them explore
-                your restaurant for the uniqueness you serve.</p>
         </div>
 
         <!-- Experiences -->
@@ -124,9 +124,9 @@
             <h3 class="feature-heading">Experiences</h3>
             <div class="feature-image-wrapper">
                 <img src="images/experiences.png" alt="Experiences feature - Restaurant visits as experiences">
+                <p class="feature-text">Visiting your restaurant should be considered an experience which eventually becomes
+                    your customer's comfort.</p>
             </div>
-            <p class="feature-text">Visiting your restaurant should be considered an experience which eventually becomes
-                your customer's comfort.</p>
         </div>
 
         <!-- Journey & Badges -->
@@ -136,9 +136,9 @@
             <div class="feature-image-wrapper">
                 <img src="images/journey1.png" alt="Journey and Badges - Gamified dining">
                 <img src="images/journey2.png" alt="Journey and Badges - Gamified dining">
+                <p class="feature-text">Every experience is gamified with badges, encouraging your customers to try
+                    something new each time they visit. The food exploration here is endless!</p>
             </div>
-            <p class="feature-text">Every experience is gamified with badges, encouraging your customers to try
-                something new each time they visit. The food exploration here is endless!</p>
         </div>
 
         <!-- Every Detail Matters -->
@@ -147,9 +147,9 @@
             <h3 class="feature-heading">Every detail matters!</h3>
             <div class="feature-image-wrapper">
                 <img src="images/details.png" alt="Restaurant details - Operating hours, menus, and more">
+                <p class="feature-text">Let your customers know when you open, what you serve, and every little detail that
+                    makes your restaurant special.</p>
             </div>
-            <p class="feature-text">Let your customers know when you open, what you serve, and every little detail that
-                makes your restaurant special.</p>
         </div>
     </section>
 
@@ -293,77 +293,28 @@
             });
         })();
 
-        // ===== SCROLL-DRIVEN FEATURE: HEADING → IMAGE → GLASS → TEXT =====
+        // ===== SCROLL-DRIVEN FEATURE FOCUS OBSERVATION =====
         (function () {
-            const featureBlocks = document.querySelectorAll('.feature-block');
+            const blocks = document.querySelectorAll('.feature-block');
+            
+            const observerOptions = {
+                root: null,
+                // Focus on the center area of the viewport (40% focus window)
+                rootMargin: '-30% 0px -30% 0px',
+                threshold: 0.15
+            };
 
-            function updateFeatures() {
-                featureBlocks.forEach(block => {
-                    const imageWrapper = block.querySelector('.feature-image-wrapper');
-                    const text = block.querySelector('.feature-text');
-                    if (!imageWrapper || !text) return;
-
-                    const blockRect = block.getBoundingClientRect();
-                    const imgRect = imageWrapper.getBoundingClientRect();
-                    const textRect = text.getBoundingClientRect();
-                    const viewportH = window.innerHeight;
-
-                    // If block is completely out of viewport, reset
-                    if (blockRect.bottom < 0 || blockRect.top > viewportH) {
-                        imageWrapper.style.filter = 'none';
-                        imageWrapper.style.opacity = 1;
-                        imageWrapper.style.transform = 'translateY(0) scale(1) rotateX(0deg) rotateY(0deg)';
-                        text.style.opacity = 0;
-                        text.style.transform = 'scale(0.9)';
-                        text.style.pointerEvents = 'none';
-                        return;
-                    }
-
-                    // scrolledInto = how many px the block top has scrolled above viewport top
-                    // 0 means block top is at viewport top
-                    // Negative means block hasn't reached top yet
-                    const scrolledInto = -blockRect.top;
-
-                    // Transition window:
-                    // Image is clear until block scrolls past 40% of viewport height.
-                    // Snaps to blurred/overlay state within a quick 10% viewport height window.
-                    const triggerStart = viewportH * 0.40;
-                    const triggerEnd = viewportH * 0.50;
-
-                    let progress = 0;
-                    if (scrolledInto > triggerStart) {
-                        progress = (scrolledInto - triggerStart) / (triggerEnd - triggerStart);
-                        progress = Math.max(0, Math.min(1, progress));
-                    }
-
-                    const blurAmount = progress * 14; // blur up to 14px
-                    const imgOpacity = 1 - progress * 0.5; // dim to 0.50
-                    
-                    // Mix of animations on image: zoom-out, 3D perspective tilt, desaturation
-                    const scale = 1 - progress * 0.08;
-                    const rotateX = progress * 8;   // 8deg tilt forward
-                    const rotateY = progress * -5;  // -5deg tilt sideways
-                    const saturate = 1 - progress * 0.5; // 50% desaturation
-
-                    imageWrapper.style.filter = `blur(${blurAmount}px) saturate(${saturate})`;
-                    imageWrapper.style.opacity = imgOpacity;
-                    imageWrapper.style.transform = `scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-
-                    // Text overlay fades and scales up directly on top of the blurred image
-                    text.style.opacity = progress;
-                    text.style.transform = `scale(${0.9 + progress * 0.1})`;
-                    
-                    if (progress > 0.8) {
-                        text.style.pointerEvents = 'auto';
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
                     } else {
-                        text.style.pointerEvents = 'none';
+                        entry.target.classList.remove('active');
                     }
                 });
-            }
+            }, observerOptions);
 
-            window.addEventListener('scroll', updateFeatures, { passive: true });
-            window.addEventListener('resize', updateFeatures);
-            updateFeatures();
+            blocks.forEach(block => observer.observe(block));
         })();
 
         // ===== GLOBAL SCROLL INDICATOR HIDE LOGIC =====
