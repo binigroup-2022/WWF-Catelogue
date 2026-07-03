@@ -732,8 +732,9 @@ section {
     pointer-events: auto;
     transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-/* Upgrade layout to modern sticky animations when viewport height is sufficient (min-height: 480px and min-width: 480px) */
-@media (min-height: 480px) and (min-width: 480px) {
+
+/* Upgrade layout to modern sticky animations when viewport height is sufficient (min-height: 480px) */
+@media (min-height: 480px) {
     .feature-block {
         height: 180vh;
         /* Scroll track height for sticky effect */
@@ -1238,11 +1239,12 @@ section {
     }
 
     .feature-image-wrapper {
-        max-width: 260px;
+        max-width: 340px;
     }
 
     .feature-image-wrapper:has(img + img) {
-        max-width: 380px;
+        max-width: 480px;
+        flex-wrap: wrap;
     }
 
     .bullet-item {
@@ -1280,10 +1282,10 @@ section {
     }
 
     .feature-image-wrapper {
-        max-width: 220px;
+        max-width: 320px;
     }
 
     .feature-image-wrapper:has(img + img) {
-        max-width: 300px;
+        max-width: 360px;
     }
 }
