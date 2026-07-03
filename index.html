@@ -109,46 +109,54 @@
 
         <!-- Spotlight -->
         <div class="feature-block">
-            <span class="section-title-tag reveal">Features in Wander With Food</span>
-            <h3 class="feature-heading">Spotlight</h3>
-            <div class="feature-image-wrapper">
-                <img src="images/spotlight.png" alt="Spotlight feature - Swipe dish images">
-                <p class="feature-text">The users get to swipe the dish images in the spotlight page, making them explore
-                    your restaurant for the uniqueness you serve.</p>
+            <div class="feature-sticky-inner">
+                <span class="section-title-tag reveal">Features in Wander With Food</span>
+                <h3 class="feature-heading">Spotlight</h3>
+                <div class="feature-image-wrapper">
+                    <img src="images/spotlight.png" alt="Spotlight feature - Swipe dish images">
+                    <p class="feature-text">The users get to swipe the dish images in the spotlight page, making them explore
+                        your restaurant for the uniqueness you serve.</p>
+                </div>
             </div>
         </div>
 
         <!-- Experiences -->
         <div class="feature-block">
-            <span class="section-title-tag reveal">Features in Wander With Food</span>
-            <h3 class="feature-heading">Experiences</h3>
-            <div class="feature-image-wrapper">
-                <img src="images/experiences.png" alt="Experiences feature - Restaurant visits as experiences">
-                <p class="feature-text">Visiting your restaurant should be considered an experience which eventually becomes
-                    your customer's comfort.</p>
+            <div class="feature-sticky-inner">
+                <span class="section-title-tag reveal">Features in Wander With Food</span>
+                <h3 class="feature-heading">Experiences</h3>
+                <div class="feature-image-wrapper">
+                    <img src="images/experiences.png" alt="Experiences feature - Restaurant visits as experiences">
+                    <p class="feature-text">Visiting your restaurant should be considered an experience which eventually becomes
+                        your customer's comfort.</p>
+                </div>
             </div>
         </div>
 
         <!-- Journey & Badges -->
         <div class="feature-block">
-            <span class="section-title-tag reveal">Features in Wander With Food</span>
-            <h3 class="feature-heading">Journey &amp; Badges</h3>
-            <div class="feature-image-wrapper">
-                <img src="images/journey1.png" alt="Journey and Badges - Gamified dining">
-                <img src="images/journey2.png" alt="Journey and Badges - Gamified dining">
-                <p class="feature-text">Every experience is gamified with badges, encouraging your customers to try
-                    something new each time they visit. The food exploration here is endless!</p>
+            <div class="feature-sticky-inner">
+                <span class="section-title-tag reveal">Features in Wander With Food</span>
+                <h3 class="feature-heading">Journey &amp; Badges</h3>
+                <div class="feature-image-wrapper">
+                    <img src="images/journey1.png" alt="Journey and Badges - Gamified dining">
+                    <img src="images/journey2.png" alt="Journey and Badges - Gamified dining">
+                    <p class="feature-text">Every experience is gamified with badges, encouraging your customers to try
+                        something new each time they visit. The food exploration here is endless!</p>
+                </div>
             </div>
         </div>
 
         <!-- Every Detail Matters -->
         <div class="feature-block">
-            <span class="section-title-tag reveal">Features in Wander With Food</span>
-            <h3 class="feature-heading">Every detail matters!</h3>
-            <div class="feature-image-wrapper">
-                <img src="images/details.png" alt="Restaurant details - Operating hours, menus, and more">
-                <p class="feature-text">Let your customers know when you open, what you serve, and every little detail that
-                    makes your restaurant special.</p>
+            <div class="feature-sticky-inner">
+                <span class="section-title-tag reveal">Features in Wander With Food</span>
+                <h3 class="feature-heading">Every detail matters!</h3>
+                <div class="feature-image-wrapper">
+                    <img src="images/details.png" alt="Restaurant details - Operating hours, menus, and more">
+                    <p class="feature-text">Let your customers know when you open, what you serve, and every little detail that
+                        makes your restaurant special.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -301,13 +309,46 @@
                 const viewportH = window.innerHeight;
                 blocks.forEach(block => {
                     const rect = block.getBoundingClientRect();
+                    const blockHeight = rect.height;
+                    const blockTop = rect.top;
                     
-                    // Trigger active transition (blur + text overlay) only when the block top
-                    // has scrolled above 35% of the viewport height (ensuring it was seen clear first)
-                    if (rect.top < viewportH * 0.35 && rect.bottom > viewportH * 0.15) {
-                        block.classList.add('active');
+                    // Pinning range: starts when block top reaches top of viewport (0)
+                    // and ends when block bottom is at viewport bottom (blockTop reaches -(blockHeight - viewportH))
+                    const pinStart = 0;
+                    const pinEnd = -(blockHeight - viewportH);
+                    
+                    let progress = 0;
+                    if (blockTop <= pinStart && blockTop >= pinEnd) {
+                        progress = (pinStart - blockTop) / (pinStart - pinEnd);
+                    } else if (blockTop < pinEnd) {
+                        progress = 1;
                     } else {
-                        block.classList.remove('active');
+                        progress = 0;
+                    }
+
+                    if (rect.top < viewportH && rect.bottom > 0) {
+                        block.classList.add('in-view');
+                        
+                        // Guarantee that elements inner to the sticky section are marked as revealed
+                        const headings = block.querySelectorAll('.reveal, .feature-heading, .feature-image-wrapper');
+                        headings.forEach(el => el.classList.add('revealed'));
+                        
+                        // Transition between scroll-driven stages:
+                        // Stage 1 (Heading): progress < 0.15
+                        // Stage 2 (Image): 0.15 <= progress < 0.6
+                        // Stage 3 (Text Overlay): progress >= 0.6
+                        if (progress < 0.15) {
+                            block.classList.add('stage-heading');
+                            block.classList.remove('stage-image', 'stage-text');
+                        } else if (progress >= 0.15 && progress < 0.6) {
+                            block.classList.add('stage-image');
+                            block.classList.remove('stage-heading', 'stage-text');
+                        } else {
+                            block.classList.add('stage-text');
+                            block.classList.remove('stage-heading', 'stage-image');
+                        }
+                    } else {
+                        block.classList.remove('in-view', 'stage-heading', 'stage-image', 'stage-text');
                     }
                 });
             }
