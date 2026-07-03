@@ -620,7 +620,7 @@ section {
     text-align: center;
 }
 
-.feature-block + .feature-block {
+.feature-block+.feature-block {
     border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
@@ -641,7 +641,8 @@ section {
     font-weight: 700;
     color: #FFD60A;
     margin: 0 0 24px 0;
-    opacity: 1; /* always visible on standard/fallback layout */
+    opacity: 1;
+    /* always visible on standard/fallback layout */
     transform: none;
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -659,11 +660,12 @@ section {
     margin: 0 auto;
     border-radius: 24px;
     box-shadow: 0 20px 80px rgba(255, 214, 10, 0.06);
-    opacity: 1; /* always visible on fallback */
+    opacity: 1;
+    /* always visible on fallback */
     transform: none;
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow 0.8s ease;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.8s ease;
 }
 
 /* If there are multiple images (like Journey), layout them side-by-side and allow more width */
@@ -720,7 +722,8 @@ section {
     border: 1px solid rgba(255, 214, 10, 0.15);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     text-align: center;
-    margin-top: 24px; /* margins instead of absolute overlay */
+    margin-top: 24px;
+    /* margins instead of absolute overlay */
     position: relative;
     top: auto;
     left: auto;
@@ -729,11 +732,11 @@ section {
     pointer-events: auto;
     transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* Upgrade layout to modern sticky animations when viewport height is sufficient (min-height: 600px and min-width: 480px) */
-@media (min-height: 600px) and (min-width: 480px) {
+/* Upgrade layout to modern sticky animations when viewport height is sufficient (min-height: 480px and min-width: 480px) */
+@media (min-height: 480px) and (min-width: 480px) {
     .feature-block {
-        height: 180vh; /* Scroll track height for sticky effect */
+        height: 180vh;
+        /* Scroll track height for sticky effect */
         padding: 0;
         display: block;
     }
@@ -789,6 +792,7 @@ section {
         opacity: 1;
         transform: translateY(0);
     }
+
     .feature-block.stage-heading .feature-image-wrapper {
         opacity: 0;
         transform: translateY(60px) scale(0.9);
@@ -799,18 +803,22 @@ section {
         opacity: 1;
         transform: translateY(0);
     }
+
     .feature-block.stage-image .feature-image-wrapper {
         opacity: 1;
         transform: translateY(0) scale(1);
         box-shadow: 0 30px 100px rgba(255, 214, 10, 0.14);
     }
+
     .feature-block.stage-image .feature-image-wrapper img {
         filter: blur(0px) brightness(1) saturate(1);
         transform: scale(1);
     }
+
     .feature-block.stage-image .feature-image-wrapper::before {
         border-color: rgba(255, 214, 10, 0.25);
     }
+
     .feature-block.stage-image .feature-text {
         opacity: 0;
         transform: translate(-50%, -45%) scale(0.92);
@@ -821,18 +829,22 @@ section {
         opacity: 0.5;
         transform: translateY(0);
     }
+
     .feature-block.stage-text .feature-image-wrapper {
         opacity: 1;
         transform: translateY(0) scale(1.02);
         box-shadow: 0 30px 100px rgba(255, 214, 10, 0.18);
     }
+
     .feature-block.stage-text .feature-image-wrapper img {
         filter: blur(14px) brightness(0.4) saturate(0.5);
         transform: scale(1.04);
     }
+
     .feature-block.stage-text .feature-image-wrapper::before {
         border-color: rgba(255, 214, 10, 0.4);
     }
+
     .feature-block.stage-text .feature-text {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);

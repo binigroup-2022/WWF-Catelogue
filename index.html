@@ -7,62 +7,60 @@
     <title>Wander With Food — Partner with us!</title>
     <meta name="description"
         content="Wander With Food is a Travel Food Guide app helping people discover restaurants by their preferences. Partner with us to reach food enthusiasts in Coimbatore.">
+    <!-- ===== CSS ===== -->
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="images/logo.png" type="image/png">
 </head>
 
 <body>
 
-    <!-- ===== PARTICLE CANVAS ===== -->
+    <!-- ===== SHINING PARTICLE CANVAS ===== -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- ===== OPENING SLIDE ===== -->
+    <!-- ===== HERO ===== -->
     <section id="hero">
         <img src="images/logo.png" alt="Wander With Food Logo" class="hero-logo">
         <h1 class="hero-title">Wander With Food</h1>
         <p class="hero-caption">Partner with us!</p>
-        <div class="scroll-indicator" onclick="document.getElementById('index').scrollIntoView({behavior:'smooth'})">
-            <span>Swipe to know more</span>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
             <div class="scroll-chevron"></div>
         </div>
     </section>
 
-    <!-- ===== INDEX ===== -->
+    <!-- ===== INDEX / NAV ===== -->
     <section id="index">
-        <h2 class="index-heading reveal">Index</h2>
-        <nav class="index-nav">
-            <a href="#product-history" class="reveal">Product History</a>
-            <a href="#why-partner" class="reveal">Why partner with us?</a>
-            <a href="#how-different" class="reveal">How are we different from other platforms?</a>
+        <h2 class="index-heading reveal">Table of Contents</h2>
+        <div class="index-nav">
+            <a href="#product-history" class="reveal">About Wander With Food</a>
+            <a href="#why-partner" class="reveal">Why Partner with Us?</a>
+            <a href="#how-different" class="reveal">Our Differentiators</a>
             <a href="#features" class="reveal">Features in Wander With Food</a>
-        </nav>
+        </div>
     </section>
 
     <!-- ===== PRODUCT HISTORY ===== -->
     <section id="product-history">
         <div class="slideshow-bg">
-            <img src="images/food1.png" alt="Food slide 1" class="active">
-            <img src="images/food2.png" alt="Food slide 2">
-            <img src="images/food3.png" alt="Food slide 3">
+            <img src="images/food1.png" alt="Slideshow Image 1" class="active">
+            <img src="images/food2.png" alt="Slideshow Image 2">
+            <img src="images/food3.png" alt="Slideshow Image 3">
         </div>
         <div class="history-content">
-            <div class="year-badge reveal">Est. 2019</div>
-            <span class="section-title-tag reveal">Product History</span>
-            <h2 class="section-heading reveal">7 years into building</h2>
+            <span class="year-badge">Since 2019</span>
+            <h2 class="section-heading reveal">Our Story</h2>
             <p class="section-text reveal">
                 Wander With Food was ideated back in 2019, with an idea of helping people discover restaurants by their
-                preferences. We curated the restaurants based on type, budget, location and quality. Now our application
-                has grown into an enterprise level platform with over 8+ prominent features. Crafted for the food
-                enthusiasts, the application is all set to go live in and around Coimbatore.
+                preferences and not just by names. We want to bring the focus back to the food, the experience, and the
+                journey of dining.
             </p>
         </div>
     </section>
 
-    <!-- ===== WHY PARTNER WITH US ===== -->
+    <!-- ===== WHY PARTNER ===== -->
     <section id="why-partner">
         <div class="partner-content">
-            <span class="section-title-tag reveal">Why partner with us?</span>
-            <h2 class="section-heading reveal">Because you are chosen!</h2>
+            <span class="section-title-tag reveal">Partner with Coimbatore's curated food guide</span>
+            <h2 class="section-heading reveal">Why Partner with Us?</h2>
             <p class="section-text reveal">
                 Wander with Food is positioned as a Travel Food Guide and therefore, not all the restaurants are
                 onboarded. We hand pick the best dines in Coimbatore to give our customers a memorable dining
@@ -94,9 +92,8 @@
                     <p>We showcase your restaurant as experiences worth trying, and not just as a place of comfort.</p>
                 </li>
                 <li class="bullet-item">
-                    <div class="bullet-icon">🎁</div>
-                    <p>We don't deliver monetary offers alone, what matters is the experience and value. So customise
-                        the offers to our customers at your ease.</p>
+                    <div class="bullet-icon">🎮</div>
+                    <p>We gamify food exploration, converting customers into loyal food adventurers.</p>
                 </li>
             </ul>
         </div>
@@ -114,7 +111,8 @@
                 <h3 class="feature-heading">Spotlight</h3>
                 <div class="feature-image-wrapper">
                     <img src="images/spotlight.png" alt="Spotlight feature - Swipe dish images">
-                    <p class="feature-text">The users get to swipe the dish images in the spotlight page, making them explore
+                    <p class="feature-text">The users get to swipe the dish images in the spotlight page, making them
+                        explore
                         your restaurant for the uniqueness you serve.</p>
                 </div>
             </div>
@@ -127,7 +125,8 @@
                 <h3 class="feature-heading">Experiences</h3>
                 <div class="feature-image-wrapper">
                     <img src="images/experiences.png" alt="Experiences feature - Restaurant visits as experiences">
-                    <p class="feature-text">Visiting your restaurant should be considered an experience which eventually becomes
+                    <p class="feature-text">Visiting your restaurant should be considered an experience which eventually
+                        becomes
                         your customer's comfort.</p>
                 </div>
             </div>
@@ -154,7 +153,8 @@
                 <h3 class="feature-heading">Every detail matters!</h3>
                 <div class="feature-image-wrapper">
                     <img src="images/details.png" alt="Restaurant details - Operating hours, menus, and more">
-                    <p class="feature-text">Let your customers know when you open, what you serve, and every little detail that
+                    <p class="feature-text">Let your customers know when you open, what you serve, and every little
+                        detail that
                         makes your restaurant special.</p>
                 </div>
             </div>
@@ -311,12 +311,12 @@
                     const rect = block.getBoundingClientRect();
                     const blockHeight = rect.height;
                     const blockTop = rect.top;
-                    
+
                     // Pinning range: starts when block top reaches top of viewport (0)
                     // and ends when block bottom is at viewport bottom (blockTop reaches -(blockHeight - viewportH))
                     const pinStart = 0;
                     const pinEnd = -(blockHeight - viewportH);
-                    
+
                     let progress = 0;
                     if (blockTop <= pinStart && blockTop >= pinEnd) {
                         progress = (pinStart - blockTop) / (pinStart - pinEnd);
@@ -328,11 +328,11 @@
 
                     if (rect.top < viewportH && rect.bottom > 0) {
                         block.classList.add('in-view');
-                        
+
                         // Guarantee that elements inner to the sticky section are marked as revealed
                         const headings = block.querySelectorAll('.reveal, .feature-heading, .feature-image-wrapper');
                         headings.forEach(el => el.classList.add('revealed'));
-                        
+
                         // Transition between scroll-driven stages:
                         // Stage 1 (Heading): progress < 0.15
                         // Stage 2 (Image): 0.15 <= progress < 0.6
@@ -362,12 +362,12 @@
         (function () {
             const globalIndicator = document.getElementById('global-scroll-indicator');
             const heroIndicator = document.querySelector('.scroll-indicator');
-            
+
             if (globalIndicator) {
                 window.addEventListener('scroll', () => {
                     const scrollY = window.scrollY;
                     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                    
+
                     // Hide global indicator at very top (let hero handle it) or near footer/CTA
                     if (scrollY < 120 || maxScroll - scrollY < 180) {
                         globalIndicator.classList.add('hidden');
@@ -376,7 +376,7 @@
                     }
                 }, { passive: true });
             }
-            
+
             if (heroIndicator) {
                 window.addEventListener('scroll', () => {
                     if (window.scrollY > 100) {
