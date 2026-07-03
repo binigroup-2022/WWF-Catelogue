@@ -602,8 +602,8 @@ section {
     margin: 0 auto;
     padding: 0;
     position: relative;
-    /* Responsive height to allow smooth scroll overlay */
-    min-height: 160vh;
+    /* 200vh gives enough space to pin both image and text so they don't scroll off early */
+    min-height: 200vh;
 }
 
 .feature-block + .feature-block {
@@ -676,7 +676,7 @@ section {
     border-radius: 24px;
 }
 
-/* Phase 4: Text overlay positioned absolutely on top of the sticky image */
+/* Phase 4: Text overlay positioned stickily on top of the image */
 .feature-text {
     font-size: clamp(1rem, 2.2vw, 1.25rem);
     font-weight: 400;
@@ -691,15 +691,15 @@ section {
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 214, 10, 0.25);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -40%) scale(0.9);
+    position: sticky;
+    top: 260px;
     z-index: 10;
+    margin: 75vh auto 0;
     text-align: center;
     pointer-events: none;
     /* Start hidden — JS controls visibility */
     opacity: 0;
+    transform: scale(0.9);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 

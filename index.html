@@ -314,7 +314,7 @@
                         imageWrapper.style.opacity = 1;
                         imageWrapper.style.transform = 'translateY(0) scale(1) rotateX(0deg) rotateY(0deg)';
                         text.style.opacity = 0;
-                        text.style.transform = 'translate(-50%, -40%) scale(0.9)';
+                        text.style.transform = 'scale(0.9)';
                         text.style.pointerEvents = 'none';
                         return;
                     }
@@ -351,7 +351,7 @@
 
                     // Text overlay fades and scales up directly on top of the blurred image
                     text.style.opacity = progress;
-                    text.style.transform = `translate(-50%, -50%) scale(${0.9 + progress * 0.1})`;
+                    text.style.transform = `scale(${0.9 + progress * 0.1})`;
                     
                     if (progress > 0.8) {
                         text.style.pointerEvents = 'auto';
