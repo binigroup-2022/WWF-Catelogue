@@ -602,8 +602,8 @@ section {
     margin: 0 auto;
     padding: 0;
     position: relative;
-    /* Responsive height to avoid scroll dead zones */
-    min-height: 150vh;
+    /* Responsive height to allow smooth scroll overlay */
+    min-height: 160vh;
 }
 
 .feature-block + .feature-block {
@@ -617,9 +617,9 @@ section {
     color: #FFD60A;
     text-align: center;
     margin: 0;
-    padding: 40px 20px 20px;
+    padding: 20px 20px 20px;
     position: sticky;
-    top: 0;
+    top: 35px;
     z-index: 4;
     background: linear-gradient(to bottom, #0F0F0F 60%, transparent);
     /* Initial reveal */
@@ -643,7 +643,7 @@ section {
     position: sticky;
     top: 110px;
     z-index: 2;
-    transition: filter 0.3s ease;
+    transition: filter 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
     box-shadow: 0 20px 80px rgba(255, 214, 10, 0.08);
     /* Initial reveal */
     opacity: 0;
@@ -653,7 +653,7 @@ section {
 .feature-image-wrapper.revealed {
     opacity: 1;
     transform: translateY(0) scale(1);
-    transition: filter 0.3s ease, opacity 0.8s var(--ease-out-expo) 0.2s, transform 0.8s var(--ease-out-expo) 0.2s;
+    transition: filter 0.3s ease, transform 0.3s ease, opacity 0.8s var(--ease-out-expo) 0.2s, transform 0.8s var(--ease-out-expo) 0.2s;
 }
 
 .feature-image-wrapper::before {
@@ -676,146 +676,74 @@ section {
     border-radius: 24px;
 }
 
-/* Phase 4: Text overlay appears relatively and scrolls naturally up over sticky image */
+/* Phase 4: Text overlay positioned absolutely on top of the sticky image */
 .feature-text {
-    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
     font-weight: 400;
     color: rgba(255, 255, 255, 0.95);
     line-height: 1.8;
-    max-width: 480px;
-    padding: 24px 30px;
+    width: 90%;
+    max-width: 290px;
+    padding: 24px 28px;
     border-radius: 20px;
-    background: rgba(15, 15, 15, 0.8);
+    background: rgba(15, 15, 15, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 214, 10, 0.15);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    position: relative;
-    z-index: 3;
-    margin: 30vh auto 0;
+    border: 1px solid rgba(255, 214, 10, 0.25);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -40%) scale(0.9);
+    z-index: 10;
     text-align: center;
+    pointer-events: none;
     /* Start hidden — JS controls visibility */
     opacity: 0;
-    transform: translateY(40px);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* ===== PRICING & MONETIZATION ===== */
-#pricing {
-    min-height: 100vh;
-    text-align: center;
-    position: relative;
-}
-
-#pricing::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 214, 10, 0.2), transparent);
-}
-
-.pricing-content {
-    max-width: 800px;
-}
-
-.pricing-content .section-heading {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    color: #FFD60A;
-    margin-bottom: 32px;
-}
-
-.pricing-content .section-text {
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.9;
-    margin-bottom: 48px;
-}
-
-.pricing-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
-    margin-top: 48px;
-}
-
-.pricing-card {
-    padding: 40px 32px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.02);
-    text-align: center;
-    transition: all 0.4s var(--ease-out-expo);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    position: relative;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(40px);
-}
-
-.pricing-card.revealed {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Glow shimmer on pricing card hover */
-.pricing-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 214, 10, 0.04),
-        transparent
-    );
-    transition: left 0.7s ease;
-    pointer-events: none;
-}
-
-.pricing-card:hover::after {
-    left: 150%;
-}
-
-.pricing-card:hover {
-    border-color: rgba(255, 214, 10, 0.2);
-    background: rgba(255, 214, 10, 0.03);
-    transform: translateY(-8px);
-    box-shadow: 0 16px 60px rgba(255, 214, 10, 0.08);
-}
-
-.pricing-card .card-icon {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    display: inline-block;
-    transition: transform 0.4s var(--ease-out-back);
-}
-
-.pricing-card:hover .card-icon {
-    transform: scale(1.2) rotate(-5deg);
-}
-
-.pricing-card h3 {
-    font-size: 1.3rem;
+/* ===== SECTION TITLE TAGS ===== */
+.section-title-tag {
+    font-size: 0.85rem;
     font-weight: 600;
     color: #FFD60A;
-    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+    display: block;
+    text-align: center;
 }
 
-.pricing-card p {
-    font-size: 0.95rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.6);
-    line-height: 1.7;
+/* ===== GLOBAL SCROLL INDICATOR ===== */
+#global-scroll-indicator {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s;
+    opacity: 1;
+    visibility: visible;
 }
+
+#global-scroll-indicator.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#global-scroll-indicator .scroll-chevron {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid #FFD60A;
+    border-bottom: 2px solid #FFD60A;
+    transform: rotate(45deg);
+    animation: bounceDown 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 214, 10, 0.6));
+}
+
+
 
 /* ===== CTA / FOOTER ===== */
 .cta-section {

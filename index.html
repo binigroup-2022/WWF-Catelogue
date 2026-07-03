@@ -35,7 +35,6 @@
             <a href="#why-partner" class="reveal">Why partner with us?</a>
             <a href="#how-different" class="reveal">How are we different from other platforms?</a>
             <a href="#features" class="reveal">Features in Wander With Food</a>
-            <a href="#pricing" class="reveal">Pricing &amp; Monetization</a>
         </nav>
     </section>
 
@@ -48,6 +47,7 @@
         </div>
         <div class="history-content">
             <div class="year-badge reveal">Est. 2019</div>
+            <span class="section-title-tag reveal">Product History</span>
             <h2 class="section-heading reveal">7 years into building</h2>
             <p class="section-text reveal">
                 Wander With Food was ideated back in 2019, with an idea of helping people discover restaurants by their
@@ -61,6 +61,7 @@
     <!-- ===== WHY PARTNER WITH US ===== -->
     <section id="why-partner">
         <div class="partner-content">
+            <span class="section-title-tag reveal">Why partner with us?</span>
             <h2 class="section-heading reveal">Because you are chosen!</h2>
             <p class="section-text reveal">
                 Wander with Food is positioned as a Travel Food Guide and therefore, not all the restaurants are
@@ -77,7 +78,8 @@
     <!-- ===== HOW ARE WE DIFFERENT ===== -->
     <section id="how-different">
         <div class="different-content">
-            <h2 class="section-heading reveal">How are we different from other platforms?</h2>
+            <span class="section-title-tag reveal">How are we different from other platforms?</span>
+            <h2 class="section-heading reveal">Our Differentiators</h2>
             <ul class="bullet-list">
                 <li class="bullet-item">
                     <div class="bullet-icon">🍽️</div>
@@ -107,6 +109,7 @@
 
         <!-- Spotlight -->
         <div class="feature-block">
+            <span class="section-title-tag reveal">Features in Wander With Food</span>
             <h3 class="feature-heading">Spotlight</h3>
             <div class="feature-image-wrapper">
                 <img src="images/spotlight.png" alt="Spotlight feature - Swipe dish images">
@@ -117,6 +120,7 @@
 
         <!-- Experiences -->
         <div class="feature-block">
+            <span class="section-title-tag reveal">Features in Wander With Food</span>
             <h3 class="feature-heading">Experiences</h3>
             <div class="feature-image-wrapper">
                 <img src="images/experiences.png" alt="Experiences feature - Restaurant visits as experiences">
@@ -127,6 +131,7 @@
 
         <!-- Journey & Badges -->
         <div class="feature-block">
+            <span class="section-title-tag reveal">Features in Wander With Food</span>
             <h3 class="feature-heading">Journey &amp; Badges</h3>
             <div class="feature-image-wrapper">
                 <img src="images/journey1.png" alt="Journey and Badges - Gamified dining">
@@ -138,6 +143,7 @@
 
         <!-- Every Detail Matters -->
         <div class="feature-block">
+            <span class="section-title-tag reveal">Features in Wander With Food</span>
             <h3 class="feature-heading">Every detail matters!</h3>
             <div class="feature-image-wrapper">
                 <img src="images/details.png" alt="Restaurant details - Operating hours, menus, and more">
@@ -147,42 +153,16 @@
         </div>
     </section>
 
-    <!-- ===== PRICING & MONETIZATION ===== -->
-    <section id="pricing">
-        <div class="pricing-content">
-            <h2 class="section-heading reveal">Pricing &amp; Monetization</h2>
-            <p class="section-text reveal">
-                We believe in building partnerships, not transactions. Our pricing is designed to ensure mutual growth
-                and value for your restaurant.
-            </p>
-            <div class="pricing-cards">
-                <div class="pricing-card reveal">
-                    <div class="card-icon">🚀</div>
-                    <h3>Visibility</h3>
-                    <p>Get featured as a top dining experience in Coimbatore and attract food enthusiasts actively
-                        looking for unique restaurants.</p>
-                </div>
-                <div class="pricing-card reveal">
-                    <div class="card-icon">📊</div>
-                    <h3>Insights</h3>
-                    <p>Understand your customers better with data-driven insights on preferences, visit patterns, and
-                        engagement metrics.</p>
-                </div>
-                <div class="pricing-card reveal">
-                    <div class="card-icon">🤝</div>
-                    <h3>Growth</h3>
-                    <p>Grow together with a platform built for food enthusiasts. More engagement, more customers, more
-                        memorable experiences.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ===== CTA ===== -->
     <div class="cta-section">
         <h2 class="reveal">Ready to get discovered?</h2>
         <p class="reveal">Join Wander With Food and let food lovers find you.</p>
         <a href="#" class="cta-button reveal">Let's Partner</a>
+    </div>
+
+    <!-- ===== GLOBAL SCROLL INDICATOR ===== -->
+    <div id="global-scroll-indicator">
+        <div class="scroll-chevron"></div>
     </div>
 
     <!-- ===== FOOTER ===== -->
@@ -332,8 +312,10 @@
                     if (blockRect.bottom < 0 || blockRect.top > viewportH) {
                         imageWrapper.style.filter = 'none';
                         imageWrapper.style.opacity = 1;
+                        imageWrapper.style.transform = 'translateY(0) scale(1) rotateX(0deg) rotateY(0deg)';
                         text.style.opacity = 0;
-                        text.style.transform = 'translateY(40px)';
+                        text.style.transform = 'translate(-50%, -40%) scale(0.9)';
+                        text.style.pointerEvents = 'none';
                         return;
                     }
 
@@ -344,7 +326,7 @@
                     // Measure distance between text top and image center
                     const dist = textTopY - imgCenterY;
 
-                    // Extremely sharp 40px window for immediate snapping transition
+                    // Transition window: triggers immediately once the text scrolls near the image center
                     const startDist = 300;
                     const endDist = 260;
 
@@ -356,13 +338,26 @@
 
                     const blurAmount = progress * 14; // blur up to 14px
                     const imgOpacity = 1 - progress * 0.5; // dim to 0.50
+                    
+                    // Mix of animations on image: zoom-out, 3D perspective tilt, desaturation
+                    const scale = 1 - progress * 0.08;
+                    const rotateX = progress * 8;   // 8deg tilt forward
+                    const rotateY = progress * -5;  // -5deg tilt sideways
+                    const saturate = 1 - progress * 0.5; // 50% desaturation
 
-                    imageWrapper.style.filter = `blur(${blurAmount}px)`;
+                    imageWrapper.style.filter = `blur(${blurAmount}px) saturate(${saturate})`;
                     imageWrapper.style.opacity = imgOpacity;
+                    imageWrapper.style.transform = `scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
-                    // Fade text in and slide up immediately
+                    // Text overlay fades and scales up directly on top of the blurred image
                     text.style.opacity = progress;
-                    text.style.transform = `translateY(${(1 - progress) * 30}px)`;
+                    text.style.transform = `translate(-50%, -50%) scale(${0.9 + progress * 0.1})`;
+                    
+                    if (progress > 0.8) {
+                        text.style.pointerEvents = 'auto';
+                    } else {
+                        text.style.pointerEvents = 'none';
+                    }
                 });
             }
 
@@ -371,34 +366,33 @@
             updateFeatures();
         })();
 
-        // ===== PRICING CARD STAGGER =====
+        // ===== GLOBAL SCROLL INDICATOR HIDE LOGIC =====
         (function () {
-            const cards = document.querySelectorAll('.pricing-card');
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const idx = Array.from(cards).indexOf(entry.target);
-                        entry.target.style.transitionDelay = (idx * 0.15) + 's';
-                        entry.target.classList.add('revealed');
-                        obs.unobserve(entry.target);
+            const globalIndicator = document.getElementById('global-scroll-indicator');
+            const heroIndicator = document.querySelector('.scroll-indicator');
+            
+            if (globalIndicator) {
+                window.addEventListener('scroll', () => {
+                    const scrollY = window.scrollY;
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    
+                    // Hide global indicator at very top (let hero handle it) or near footer/CTA
+                    if (scrollY < 120 || maxScroll - scrollY < 180) {
+                        globalIndicator.classList.add('hidden');
+                    } else {
+                        globalIndicator.classList.remove('hidden');
                     }
-                });
-            }, { threshold: 0.2 });
-
-            cards.forEach(card => obs.observe(card));
-        })();
-
-        // ===== SCROLL INDICATOR HIDE ON SCROLL =====
-        (function () {
-            const indicator = document.querySelector('.scroll-indicator');
-            if (indicator) {
+                }, { passive: true });
+            }
+            
+            if (heroIndicator) {
                 window.addEventListener('scroll', () => {
                     if (window.scrollY > 100) {
-                        indicator.style.opacity = '0';
-                        indicator.style.pointerEvents = 'none';
+                        heroIndicator.style.opacity = '0';
+                        heroIndicator.style.pointerEvents = 'none';
                     } else {
-                        indicator.style.opacity = '';
-                        indicator.style.pointerEvents = '';
+                        heroIndicator.style.opacity = '';
+                        heroIndicator.style.pointerEvents = '';
                     }
                 }, { passive: true });
             }
