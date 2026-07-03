@@ -543,8 +543,8 @@ section {
 .bullet-item:hover {
     background: rgba(255, 214, 10, 0.04);
     border-color: rgba(255, 214, 10, 0.15);
-    transform: translateX(8px);
-    box-shadow: 0 4px 30px rgba(255, 214, 10, 0.06);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 30px rgba(255, 214, 10, 0.08);
 }
 
 .bullet-icon {
