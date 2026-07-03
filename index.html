@@ -319,20 +319,20 @@
                         return;
                     }
 
-                    // The image pins at top: 110px. Compute center of the pinned image.
-                    const imgCenterY = imgRect.top + imgRect.height / 2;
-                    const textTopY = textRect.top;
+                    // scrolledInto = how many px the block top has scrolled above viewport top
+                    // 0 means block top is at viewport top
+                    // Negative means block hasn't reached top yet
+                    const scrolledInto = -blockRect.top;
 
-                    // Measure distance between text top and image center
-                    const dist = textTopY - imgCenterY;
-
-                    // Transition window: triggers immediately once the text scrolls near the image center
-                    const startDist = 300;
-                    const endDist = 260;
+                    // Transition window:
+                    // Image is clear until block scrolls past 40% of viewport height.
+                    // Snaps to blurred/overlay state within a quick 10% viewport height window.
+                    const triggerStart = viewportH * 0.40;
+                    const triggerEnd = viewportH * 0.50;
 
                     let progress = 0;
-                    if (dist < startDist) {
-                        progress = (startDist - dist) / (startDist - endDist);
+                    if (scrolledInto > triggerStart) {
+                        progress = (scrolledInto - triggerStart) / (triggerEnd - triggerStart);
                         progress = Math.max(0, Math.min(1, progress));
                     }
 
