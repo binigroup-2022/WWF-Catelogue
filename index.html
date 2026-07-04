@@ -47,6 +47,94 @@
                 display: none !important;
             }
         }
+
+        /* ===== FULLSCREEN MODAL INLINE STYLES ===== */
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.95) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            z-index: 100000 !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            pointer-events: none;
+        }
+
+        .fullscreen-modal.active {
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+
+        .minimize-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255, 214, 10, 0.5);
+            color: #FFD60A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100002;
+        }
+
+        .minimize-btn:hover {
+            background: #FFD60A;
+            color: #0F0F0F;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 214, 10, 0.6);
+        }
+
+        .modal-content {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            max-width: 90%;
+            max-height: 85%;
+            width: auto;
+            height: auto;
+            animation: zoomInModal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .modal-content img {
+            max-width: 45%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 214, 10, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* If single image inside modal */
+        .modal-content img:only-child {
+            max-width: 90%;
+        }
+
+        @keyframes zoomInModal {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 
@@ -708,39 +796,59 @@
             const modal = document.getElementById('fullscreen-modal');
             const modalContent = document.getElementById('modal-content');
             const minimizeBtn = document.getElementById('modal-minimize-btn');
-            const maximizeBtns = document.querySelectorAll('.maximize-btn');
 
-            maximizeBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const wrapper = btn.closest('.feature-image-wrapper');
-                    if (!wrapper) return;
+            if (!modal || !modalContent) {
+                console.error("Fullscreen modal elements not found!");
+                return;
+            }
 
-                    const imgs = wrapper.querySelectorAll('img');
-                    modalContent.innerHTML = '';
+            // Using event delegation on document to catch all clicks on maximize buttons robustly
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('.maximize-btn');
+                if (!btn) return;
 
-                    imgs.forEach(img => {
-                        const newImg = document.createElement('img');
-                        newImg.src = img.src;
-                        newImg.alt = img.alt;
-                        modalContent.appendChild(newImg);
-                    });
+                console.log("Maximize button clicked!");
+                e.preventDefault();
+                e.stopPropagation();
 
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
+                const wrapper = btn.closest('.feature-image-wrapper');
+                if (!wrapper) {
+                    console.error("No wrapper .feature-image-wrapper found for maximize button");
+                    return;
+                }
+
+                // Gather all image elements inside the wrapper
+                const imgs = wrapper.querySelectorAll('img');
+                console.log(`Found ${imgs.length} images to display in fullscreen`);
+
+                modalContent.innerHTML = '';
+                imgs.forEach(img => {
+                    const newImg = document.createElement('img');
+                    newImg.src = img.src;
+                    newImg.alt = img.alt;
+                    modalContent.appendChild(newImg);
                 });
+
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                console.log("Fullscreen modal activated");
             });
 
             function closeModal() {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
+                console.log("Fullscreen modal minimized/closed");
             }
 
             if (minimizeBtn) {
-                minimizeBtn.addEventListener('click', closeModal);
+                minimizeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeModal();
+                });
             }
 
             modal.addEventListener('click', (e) => {
+                // Close if clicking outside the modal content (on the dark background overlay)
                 if (e.target === modal) {
                     closeModal();
                 }
