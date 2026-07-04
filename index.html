@@ -8,7 +8,7 @@
     <meta name="description"
         content="Wander With Food is a Travel Food Guide app helping people discover restaurants by their preferences. Partner with us to reach food enthusiasts in Coimbatore.">
     <!-- ===== CSS ===== -->
-    <link rel="stylesheet" href="style.css?v=18">
+    <link rel="stylesheet" href="style.css?v=19">
 </head>
 
 <body>
@@ -421,28 +421,51 @@
             function smoothScrollTo(target) {
                 if (!target) return;
                 const html = document.documentElement;
-                const originalSnap = html.style.scrollSnapType;
-                html.style.scrollSnapType = 'none';
+                const body = document.body;
 
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Temporarily disable scroll behavior and snapping on both html & body
+                const originalSnap = html.style.scrollSnapType;
+                const originalBodySnap = body.style.scrollSnapType;
+                const originalScrollBehavior = html.style.scrollBehavior;
+
+                html.style.scrollSnapType = 'none';
+                body.style.scrollSnapType = 'none';
+                html.style.scrollBehavior = 'auto';
+
+                const rect = target.getBoundingClientRect();
+                const absoluteTop = rect.top + window.scrollY;
+
+                window.scrollTo({
+                    top: absoluteTop,
+                    behavior: 'smooth'
+                });
 
                 setTimeout(() => {
                     html.style.scrollSnapType = originalSnap;
-                }, 800);
+                    body.style.scrollSnapType = originalBodySnap;
+                    html.style.scrollBehavior = originalScrollBehavior;
+                }, 1000);
             }
 
             if (globalIndicator) {
                 globalIndicator.addEventListener('click', () => {
-                    const targets = ['#hero', '#index', '#product-history', '#why-partner', '#how-different', '#features', '.cta-section'];
+                    // Collect all main sections and individual feature blocks in DOM order
+                    const targets = [
+                        document.getElementById('hero'),
+                        document.getElementById('index'),
+                        document.getElementById('product-history'),
+                        document.getElementById('why-partner'),
+                        document.getElementById('how-different'),
+                        ...Array.from(document.querySelectorAll('.feature-block')),
+                        document.querySelector('.cta-section')
+                    ].filter(Boolean);
+
                     let nextTarget = null;
-                    for (const selector of targets) {
-                        const el = document.querySelector(selector);
-                        if (el) {
-                            const rect = el.getBoundingClientRect();
-                            if (rect.top > 10) {
-                                nextTarget = el;
-                                break;
-                            }
+                    for (const el of targets) {
+                        const rect = el.getBoundingClientRect();
+                        if (rect.top > 15) {
+                            nextTarget = el;
+                            break;
                         }
                     }
                     if (nextTarget) {
