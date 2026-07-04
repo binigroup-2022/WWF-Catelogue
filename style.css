@@ -702,12 +702,6 @@ section {
     transition: filter 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* When stacked, images take full width and appropriate height to fit viewports */
-.feature-image-wrapper:has(img + img) img {
-    width: 100%;
-    max-height: 35vh;
-}
-
 /* Text description is displayed naturally below the image on small screen heights / fallback */
 .feature-text {
     font-size: clamp(0.95rem, 2.2vw, 1.15rem);
@@ -1336,11 +1330,6 @@ section {
         display: flex;
         flex-direction: column;
         gap: 16px;
-    }
-
-    .feature-image-wrapper:has(img + img) img {
-        width: 100%;
-        max-height: 35vh;
     }
 
     .bullet-item {
