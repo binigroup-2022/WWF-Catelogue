@@ -8,7 +8,7 @@
     <meta name="description"
         content="Wander With Food is a Travel Food Guide app helping people discover restaurants by their preferences. Partner with us to reach food enthusiasts in Coimbatore.">
     <!-- ===== CSS ===== -->
-    <link rel="stylesheet" href="style.css?v=23">
+    <link rel="stylesheet" href="style.css?v=24">
     <style>
         /* Maximize Button Always Visible on Desktop */
         .maximize-btn {
@@ -517,6 +517,9 @@
                     if (stickyInner) {
                         stickyInner.style.opacity = fadeOpacity;
                     }
+
+                    // Set CSS variable for scroll-driven mobile/desktop animations
+                    block.style.setProperty('--scroll-progress', progress.toFixed(3));
 
                     if (blockTop < viewportH && blockBottom > 0) {
                         block.classList.add('in-view');

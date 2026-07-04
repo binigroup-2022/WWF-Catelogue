@@ -1555,3 +1555,60 @@ section {
         transform: scale(1);
     }
 }
+
+/* ===== MOBILE TRANSITIONS & CATCHY ANIMATIONS OVERRIDES ===== */
+@media (max-width: 768px) {
+    /* Tactile press on logo */
+    .hero-logo {
+        transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .hero-logo:active {
+        transform: scale(0.93) rotate(-2deg);
+        filter: drop-shadow(0 0 30px rgba(255, 214, 10, 0.8));
+    }
+
+    /* Tactile index list touch transitions */
+    .index-nav a {
+        transition: padding 0.3s ease, color 0.3s ease, background 0.3s ease !important;
+    }
+    .index-nav a:active {
+        color: #FFD60A !important;
+        padding-left: 40px !important;
+        background: rgba(255, 214, 10, 0.12) !important;
+    }
+    .index-nav a:active::before {
+        width: 100% !important;
+    }
+    .index-nav a:active::after {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+    }
+
+    /* Parallax Scroll-driven depth effects for Heading and Mockup card */
+    .feature-heading {
+        transform: translateY(calc((1 - var(--scroll-progress, 0)) * 15px)) !important;
+        opacity: calc(0.3 + var(--scroll-progress, 0) * 0.7) !important;
+        transition: transform 0.1s linear, opacity 0.1s linear !important;
+    }
+
+    .feature-image-wrapper {
+        transform: translateY(calc((1 - var(--scroll-progress, 0)) * 25px)) scale(calc(0.96 + var(--scroll-progress, 0) * 0.04)) !important;
+        transition: transform 0.1s linear !important;
+    }
+
+    /* Fluid slide transitions for images inside wrappers */
+    .feature-image-wrapper img {
+        transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.6s ease !important;
+    }
+
+    /* Active touch shrink feedback on mockup screen card */
+    .feature-image-wrapper:active img {
+        transform: scale(0.95) !important;
+        filter: brightness(0.85) saturate(1.1) !important;
+    }
+
+    /* Table of contents link hover/active underline animation */
+    .index-nav a::after {
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+}
