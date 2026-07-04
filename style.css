@@ -1271,7 +1271,14 @@ section {
 
     .feature-image-wrapper:has(img + img) {
         max-width: 100%;
-        flex-wrap: wrap;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .feature-image-wrapper:has(img + img) img {
+        width: 100%;
+        max-height: 35vh;
     }
 
     .bullet-item {
