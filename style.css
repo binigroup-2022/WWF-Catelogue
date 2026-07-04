@@ -1307,7 +1307,7 @@ section {
 
 @media (max-width: 768px) and (min-height: 480px) {
     .feature-block {
-        height: 130vh;
+        height: 150vh;
         padding: 0;
     }
 }
