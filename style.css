@@ -1230,7 +1230,12 @@ section {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     section {
+        min-height: auto;
         padding: 60px 24px;
+    }
+
+    #hero {
+        min-height: 100vh;
     }
 
     #features {
