@@ -135,6 +135,110 @@
                 transform: scale(1);
             }
         }
+
+        /* ===== PARTNER POPUP ===== */
+        .partner-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 100010;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            pointer-events: none;
+        }
+
+        .partner-popup.active {
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+
+        .partner-popup-content {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1.5px solid rgba(255, 214, 10, 0.3);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(255, 214, 10, 0.1);
+            position: relative;
+            animation: popInPartner 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        @keyframes popInPartner {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .partner-popup-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .partner-popup-close:hover {
+            color: #FFD60A;
+        }
+
+        .partner-popup-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 214, 10, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            border: 1px solid rgba(255, 214, 10, 0.2);
+            animation: partnerPulseGlow 2s infinite ease-in-out;
+        }
+
+        @keyframes partnerPulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(255, 214, 10, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 20px 4px rgba(255, 214, 10, 0.4);
+            }
+        }
+
+        .partner-popup h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: #FFD60A;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .partner-popup p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
     </style>
 </head>
 
@@ -333,6 +437,21 @@
             </svg>
         </button>
         <div class="modal-content" id="modal-content"></div>
+    </div>
+
+    <!-- ===== PARTNER POPUP ===== -->
+    <div id="partner-popup" class="partner-popup">
+        <div class="partner-popup-content">
+            <button class="partner-popup-close" id="partner-popup-close" title="Close">×</button>
+            <div class="partner-popup-icon">
+                <svg viewBox="0 0 24 24" width="48" height="48">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="#FFD60A" stroke-width="2"/>
+                    <path fill="none" stroke="#FFD60A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M8 12.5l2.5 2.5 5.5-5.5"/>
+                </svg>
+            </div>
+            <h3>Thanks for showing your interest!</h3>
+            <p>We handpick the best dining experiences. Our team will get in touch with you shortly to explore how we can grow together.</p>
+        </div>
     </div>
 
     <!-- ===== JAVASCRIPT ===== -->
@@ -870,6 +989,43 @@
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && modal.classList.contains('active')) {
                     closeModal();
+                }
+            });
+        })();
+
+        // ===== PARTNER POPUP LOGIC =====
+        (function () {
+            const partnerBtn = document.querySelector('.cta-button');
+            const popup = document.getElementById('partner-popup');
+            const closeBtn = document.getElementById('partner-popup-close');
+
+            if (!partnerBtn || !popup) return;
+
+            partnerBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                popup.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            function closePopup() {
+                popup.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closePopup);
+            }
+
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) {
+                    closePopup();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && popup.classList.contains('active')) {
+                    closePopup();
                 }
             });
         })();
