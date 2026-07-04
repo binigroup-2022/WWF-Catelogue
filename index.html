@@ -8,7 +8,7 @@
     <meta name="description"
         content="Wander With Food is a Travel Food Guide app helping people discover restaurants by their preferences. Partner with us to reach food enthusiasts in Coimbatore.">
     <!-- ===== CSS ===== -->
-    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="style.css?v=20">
 </head>
 
 <body>
@@ -108,6 +108,11 @@
                 <span class="section-title-tag reveal">Features in Wander With Food</span>
                 <h3 class="feature-heading">Spotlight</h3>
                 <div class="feature-image-wrapper">
+                    <button class="maximize-btn" title="Maximize View">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M10 21v-2H5v-5H3v7h7zm11-7h-2v5h-5v2h7v-7zM10 3H3v7h2V5h5V3zm11 0h-7v2h5v5h2V3z"/>
+                        </svg>
+                    </button>
                     <img src="images/spotlight.webp" alt="Spotlight feature - Swipe dish images" loading="lazy">
                     <p class="feature-text">The users get to swipe the dish images in the spotlight page, making them
                         explore
@@ -121,6 +126,11 @@
             <div class="feature-sticky-inner">
                 <h3 class="feature-heading">Experiences</h3>
                 <div class="feature-image-wrapper">
+                    <button class="maximize-btn" title="Maximize View">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M10 21v-2H5v-5H3v7h7zm11-7h-2v5h-5v2h7v-7zM10 3H3v7h2V5h5V3zm11 0h-7v2h5v5h2V3z"/>
+                        </svg>
+                    </button>
                     <img src="images/experiences.webp" alt="Experiences feature - Restaurant visits as experiences"
                         loading="lazy">
                     <p class="feature-text">Visiting your restaurant should be considered an experience which eventually
@@ -135,6 +145,11 @@
             <div class="feature-sticky-inner">
                 <h3 class="feature-heading">Journey &amp; Badges</h3>
                 <div class="feature-image-wrapper">
+                    <button class="maximize-btn" title="Maximize View">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M10 21v-2H5v-5H3v7h7zm11-7h-2v5h-5v2h7v-7zM10 3H3v7h2V5h5V3zm11 0h-7v2h5v5h2V3z"/>
+                        </svg>
+                    </button>
                     <img src="images/journey1.webp" alt="Journey and Badges - Gamified dining" loading="lazy">
                     <img src="images/journey2.webp" alt="Journey and Badges - Gamified dining" loading="lazy">
                     <p class="feature-text">Every experience is gamified with badges, encouraging your customers to try
@@ -148,6 +163,11 @@
             <div class="feature-sticky-inner">
                 <h3 class="feature-heading">Every detail matters!</h3>
                 <div class="feature-image-wrapper">
+                    <button class="maximize-btn" title="Maximize View">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M10 21v-2H5v-5H3v7h7zm11-7h-2v5h-5v2h7v-7zM10 3H3v7h2V5h5V3zm11 0h-7v2h5v5h2V3z"/>
+                        </svg>
+                    </button>
                     <img src="images/Restaurant1.webp" alt="Restaurant details - Operating hours, menus, and more"
                         loading="lazy">
                     <img src="images/Restaurant2.webp" alt="Restaurant details - Operating hours, menus, and more"
@@ -643,7 +663,67 @@
             init();
             animate();
         })();
+
+        // ===== FULLSCREEN MODAL LOGIC =====
+        (function () {
+            const modal = document.getElementById('fullscreen-modal');
+            const modalContent = document.getElementById('modal-content');
+            const minimizeBtn = document.getElementById('modal-minimize-btn');
+            const maximizeBtns = document.querySelectorAll('.maximize-btn');
+
+            maximizeBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const wrapper = btn.closest('.feature-image-wrapper');
+                    if (!wrapper) return;
+
+                    const imgs = wrapper.querySelectorAll('img');
+                    modalContent.innerHTML = '';
+
+                    imgs.forEach(img => {
+                        const newImg = document.createElement('img');
+                        newImg.src = img.src;
+                        newImg.alt = img.alt;
+                        modalContent.appendChild(newImg);
+                    });
+
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            if (minimizeBtn) {
+                minimizeBtn.addEventListener('click', closeModal);
+            }
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        })();
     </script>
+
+    <!-- ===== FULLSCREEN MODAL ===== -->
+    <div id="fullscreen-modal" class="fullscreen-modal">
+        <button class="minimize-btn" id="modal-minimize-btn" title="Minimize View">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M3 14h5v5H6v-3H3v-2zm3-6V5h2v5H3V8h3zm15 6h-5v5h2v-3h3v-2zm-3-6V5h-2v5h5V8h-3z"/>
+            </svg>
+        </button>
+        <div class="modal-content" id="modal-content"></div>
+    </div>
 
 </body>
 
