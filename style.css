@@ -1404,6 +1404,11 @@ section {
         height: calc(100vh - 80px);
         margin: 0;
         z-index: 1;
+        box-shadow: none !important;
+    }
+
+    .feature-image-wrapper::before {
+        display: none !important;
     }
 
     .feature-image-wrapper img {
