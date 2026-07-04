@@ -376,12 +376,36 @@
             const globalIndicator = document.getElementById('global-scroll-indicator');
             const heroIndicator = document.querySelector('.scroll-indicator');
 
+            function smoothScrollTo(target) {
+                if (!target) return;
+                const html = document.documentElement;
+                const originalSnap = html.style.scrollSnapType;
+                html.style.scrollSnapType = 'none';
+
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                setTimeout(() => {
+                    html.style.scrollSnapType = originalSnap;
+                }, 800);
+            }
+
             if (globalIndicator) {
                 globalIndicator.addEventListener('click', () => {
-                    window.scrollBy({
-                        top: window.innerHeight,
-                        behavior: 'smooth'
-                    });
+                    const targets = ['#hero', '#index', '#product-history', '#why-partner', '#how-different', '#features', '.cta-section'];
+                    let nextTarget = null;
+                    for (const selector of targets) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const rect = el.getBoundingClientRect();
+                            if (rect.top > 10) {
+                                nextTarget = el;
+                                break;
+                            }
+                        }
+                    }
+                    if (nextTarget) {
+                        smoothScrollTo(nextTarget);
+                    }
                 });
 
                 window.addEventListener('scroll', () => {
@@ -400,9 +424,7 @@
             if (heroIndicator) {
                 heroIndicator.addEventListener('click', () => {
                     const nextSection = document.getElementById('index');
-                    if (nextSection) {
-                        nextSection.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    smoothScrollTo(nextSection);
                 });
 
                 window.addEventListener('scroll', () => {
