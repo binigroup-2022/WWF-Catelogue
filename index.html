@@ -21,6 +21,10 @@
         <img src="images/logo.png" alt="Wander With Food Logo" class="hero-logo">
         <h1 class="hero-title">Wander With Food</h1>
         <p class="hero-caption">Partner with us!</p>
+        <div class="scroll-indicator">
+            <span>Swipe down to know more</span>
+            <div class="scroll-chevron"></div>
+        </div>
     </section>
 
     <!-- ===== INDEX / NAV ===== -->
@@ -55,7 +59,6 @@
     <!-- ===== WHY PARTNER ===== -->
     <section id="why-partner">
         <div class="partner-content">
-            <span class="section-title-tag reveal">Partner with Coimbatore's curated food guide</span>
             <h2 class="section-heading reveal">Why Partner with Us?</h2>
             <p class="section-text reveal">
                 Wander with Food is positioned as a Travel Food Guide and therefore, not all the restaurants are
@@ -72,7 +75,6 @@
     <!-- ===== HOW ARE WE DIFFERENT ===== -->
     <section id="how-different">
         <div class="different-content">
-            <span class="section-title-tag reveal">How are we different from other platforms?</span>
             <h2 class="section-heading reveal">Our Differentiators</h2>
             <ul class="bullet-list">
                 <li class="bullet-item">
@@ -117,7 +119,6 @@
         <!-- Experiences -->
         <div class="feature-block">
             <div class="feature-sticky-inner">
-                <span class="section-title-tag reveal">Features in Wander With Food</span>
                 <h3 class="feature-heading">Experiences</h3>
                 <div class="feature-image-wrapper">
                     <img src="images/experiences.webp" alt="Experiences feature - Restaurant visits as experiences" loading="lazy">
@@ -131,7 +132,6 @@
         <!-- Journey & Badges -->
         <div class="feature-block">
             <div class="feature-sticky-inner">
-                <span class="section-title-tag reveal">Features in Wander With Food</span>
                 <h3 class="feature-heading">Journey &amp; Badges</h3>
                 <div class="feature-image-wrapper">
                     <img src="images/journey1.webp" alt="Journey and Badges - Gamified dining" loading="lazy">
@@ -145,7 +145,6 @@
         <!-- Every Detail Matters -->
         <div class="feature-block">
             <div class="feature-sticky-inner">
-                <span class="section-title-tag reveal">Features in Wander With Food</span>
                 <h3 class="feature-heading">Every detail matters!</h3>
                 <div class="feature-image-wrapper">
                     <img src="images/details.webp" alt="Restaurant details - Operating hours, menus, and more" loading="lazy">
@@ -300,8 +299,18 @@
         // ===== SCROLL-DRIVEN FEATURE FOCUS TRANSITION =====
         (function () {
             const blocks = document.querySelectorAll('.feature-block');
+            let lastScrollY = window.scrollY;
+            let scrollDirection = 'down';
 
             function checkScroll() {
+                const currentScrollY = window.scrollY;
+                if (currentScrollY > lastScrollY) {
+                    scrollDirection = 'down';
+                } else if (currentScrollY < lastScrollY) {
+                    scrollDirection = 'up';
+                }
+                lastScrollY = currentScrollY;
+
                 const viewportH = window.innerHeight;
                 blocks.forEach(block => {
                     const rect = block.getBoundingClientRect();
@@ -315,11 +324,15 @@
 
                     let progress = 0;
                     if (blockTop <= pinStart && blockTop >= pinEnd) {
-                        progress = (pinStart - blockTop) / (pinStart - pinEnd);
+                        if (scrollDirection === 'up') {
+                            progress = (blockTop - pinEnd) / (pinStart - pinEnd);
+                        } else {
+                            progress = (pinStart - blockTop) / (pinStart - pinEnd);
+                        }
                     } else if (blockTop < pinEnd) {
-                        progress = 1;
+                        progress = (scrollDirection === 'up') ? 0 : 1;
                     } else {
-                        progress = 0;
+                        progress = (scrollDirection === 'up') ? 1 : 0;
                     }
 
                     if (rect.top < viewportH && rect.bottom > 0) {
@@ -381,6 +394,13 @@
             }
 
             if (heroIndicator) {
+                heroIndicator.addEventListener('click', () => {
+                    const nextSection = document.getElementById('index');
+                    if (nextSection) {
+                        nextSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+
                 window.addEventListener('scroll', () => {
                     if (window.scrollY > 100) {
                         heroIndicator.style.opacity = '0';
