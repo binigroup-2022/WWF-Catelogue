@@ -1254,11 +1254,23 @@ section {
     }
 
     .feature-image-wrapper {
-        max-width: 340px;
+        max-width: 100%;
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .feature-image-wrapper::before {
+        display: none;
+    }
+
+    .feature-image-wrapper img {
+        border-radius: 0;
+        max-height: 70vh;
     }
 
     .feature-image-wrapper:has(img + img) {
-        max-width: 480px;
+        max-width: 100%;
         flex-wrap: wrap;
     }
 
@@ -1297,11 +1309,11 @@ section {
     }
 
     .feature-image-wrapper {
-        max-width: 320px;
+        max-width: 100%;
     }
 
     .feature-image-wrapper:has(img + img) {
-        max-width: 360px;
+        max-width: 100%;
     }
 }
 
