@@ -734,7 +734,7 @@ section {
 }
 
 /* Upgrade layout to modern sticky animations when viewport height is sufficient (min-height: 480px) */
-@media (min-width: 769px) and (min-height: 480px) {
+@media (min-height: 480px) {
     .feature-block {
         height: 180vh;
         /* Scroll track height for sticky effect */
@@ -1305,33 +1305,9 @@ section {
     }
 }
 
-@media (max-width: 768px) {
-    .feature-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -45%) scale(0.92);
-        width: calc(100% - 32px);
-        max-width: 320px;
-        opacity: 0;
-        pointer-events: none;
-        margin-top: 0;
-        background: transparent;
-        border: none;
-        box-shadow: none;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .feature-image-wrapper.revealed img {
-        filter: blur(14px) brightness(0.4) saturate(0.5);
-        transform: scale(1.04);
-    }
-
-    .feature-image-wrapper.revealed .feature-text {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-        pointer-events: auto;
+@media (max-width: 768px) and (min-height: 480px) {
+    .feature-block {
+        height: 130vh;
+        padding: 0;
     }
 }
