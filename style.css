@@ -806,6 +806,7 @@ section {
         box-shadow: none;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
+        z-index: 10;
     }
 
     /* Stage 1: Heading */
