@@ -758,6 +758,28 @@ section {
         z-index: 2;
     }
 
+    .feature-image-wrapper:has(img + img) {
+        position: relative;
+    }
+
+    .feature-image-wrapper:has(img + img) img:nth-child(1) {
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+        transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s var(--ease-out-expo);
+    }
+
+    .feature-image-wrapper:has(img + img) img:nth-child(2) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s var(--ease-out-expo);
+    }
+
     .feature-heading {
         opacity: 0;
         transform: translateY(30px);
@@ -804,33 +826,62 @@ section {
         box-shadow: 0 30px 100px rgba(255, 214, 10, 0.14);
     }
 
-    /* Stage 2: Image */
-    .feature-block.stage-image .feature-heading {
+    /* Stage 2 / 2a / 2b: Image */
+    .feature-block.stage-image .feature-heading,
+    .feature-block.stage-image-1 .feature-heading,
+    .feature-block.stage-image-2 .feature-heading {
         opacity: 1;
         transform: translateY(0);
     }
 
-    .feature-block.stage-image .feature-image-wrapper {
+    .feature-block.stage-image .feature-image-wrapper,
+    .feature-block.stage-image-1 .feature-image-wrapper,
+    .feature-block.stage-image-2 .feature-image-wrapper {
         opacity: 1;
         transform: translateY(0) scale(1);
         box-shadow: 0 30px 100px rgba(255, 214, 10, 0.14);
     }
 
-    .feature-block.stage-image .feature-image-wrapper img {
+    .feature-block.stage-image .feature-image-wrapper img,
+    .feature-block.stage-image-1 .feature-image-wrapper img,
+    .feature-block.stage-image-2 .feature-image-wrapper img {
         filter: blur(0px) brightness(1) saturate(1);
         transform: scale(1);
     }
 
-    .feature-block.stage-image .feature-image-wrapper::before {
+    .feature-block.stage-image .feature-image-wrapper::before,
+    .feature-block.stage-image-1 .feature-image-wrapper::before,
+    .feature-block.stage-image-2 .feature-image-wrapper::before {
         border-color: rgba(255, 214, 10, 0.25);
     }
 
-    .feature-block.stage-image .feature-text {
+    .feature-block.stage-image .feature-text,
+    .feature-block.stage-image-1 .feature-text,
+    .feature-block.stage-image-2 .feature-text {
         opacity: 0;
         transform: translate(-50%, -45%) scale(0.92);
     }
 
-    /* Stage 3: Text */
+    /* Dual Image Stage Fades */
+    .feature-block.stage-image-1 .feature-image-wrapper img:nth-child(1) {
+        opacity: 1;
+        filter: blur(0px) brightness(1) saturate(1);
+        transform: scale(1);
+    }
+    .feature-block.stage-image-1 .feature-image-wrapper img:nth-child(2) {
+        opacity: 0;
+    }
+
+    .feature-block.stage-image-2 .feature-image-wrapper img:nth-child(1) {
+        opacity: 0;
+    }
+    .feature-block.stage-image-2 .feature-image-wrapper img:nth-child(2) {
+        opacity: 1;
+        filter: blur(0px) brightness(1) saturate(1);
+        transform: scale(1);
+    }
+
+    /* Stage 3 (Stage 4 for dual): Text */
     .feature-block.stage-text .feature-heading {
         opacity: 0.5;
         transform: translateY(0);
@@ -843,6 +894,15 @@ section {
     }
 
     .feature-block.stage-text .feature-image-wrapper img {
+        filter: blur(14px) brightness(0.4) saturate(0.5);
+        transform: scale(1.04);
+    }
+
+    .feature-block.stage-text:has(img + img) .feature-image-wrapper img:nth-child(1) {
+        opacity: 0;
+    }
+    .feature-block.stage-text:has(img + img) .feature-image-wrapper img:nth-child(2) {
+        opacity: 1;
         filter: blur(14px) brightness(0.4) saturate(0.5);
         transform: scale(1.04);
     }

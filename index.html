@@ -8,7 +8,7 @@
     <meta name="description"
         content="Wander With Food is a Travel Food Guide app helping people discover restaurants by their preferences. Partner with us to reach food enthusiasts in Coimbatore.">
     <!-- ===== CSS ===== -->
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 
 <body>
@@ -347,21 +347,35 @@
                         headings.forEach(el => el.classList.add('revealed'));
 
                         // Transition between scroll-driven stages:
-                        // Stage 1 (Heading): progress < 0.15
-                        // Stage 2 (Image): 0.15 <= progress < 0.6
-                        // Stage 3 (Text Overlay): progress >= 0.6
-                        if (progress < 0.15) {
-                            block.classList.add('stage-heading');
-                            block.classList.remove('stage-image', 'stage-text');
-                        } else if (progress >= 0.15 && progress < 0.6) {
-                            block.classList.add('stage-image');
-                            block.classList.remove('stage-heading', 'stage-text');
+                        const hasMultipleImages = block.querySelectorAll('.feature-image-wrapper img').length > 1;
+                        if (hasMultipleImages) {
+                            if (progress < 0.15) {
+                                block.classList.add('stage-heading');
+                                block.classList.remove('stage-image-1', 'stage-image-2', 'stage-text');
+                            } else if (progress >= 0.15 && progress < 0.45) {
+                                block.classList.add('stage-image-1');
+                                block.classList.remove('stage-heading', 'stage-image-2', 'stage-text');
+                            } else if (progress >= 0.45 && progress < 0.70) {
+                                block.classList.add('stage-image-2');
+                                block.classList.remove('stage-heading', 'stage-image-1', 'stage-text');
+                            } else {
+                                block.classList.add('stage-text');
+                                block.classList.remove('stage-heading', 'stage-image-1', 'stage-image-2');
+                            }
                         } else {
-                            block.classList.add('stage-text');
-                            block.classList.remove('stage-heading', 'stage-image');
+                            if (progress < 0.15) {
+                                block.classList.add('stage-heading');
+                                block.classList.remove('stage-image', 'stage-text');
+                            } else if (progress >= 0.15 && progress < 0.6) {
+                                block.classList.add('stage-image');
+                                block.classList.remove('stage-heading', 'stage-text');
+                            } else {
+                                block.classList.add('stage-text');
+                                block.classList.remove('stage-heading', 'stage-image');
+                            }
                         }
                     } else {
-                        block.classList.remove('in-view', 'stage-heading', 'stage-image', 'stage-text');
+                        block.classList.remove('in-view', 'stage-heading', 'stage-image', 'stage-image-1', 'stage-image-2', 'stage-text');
                     }
                 });
             }
