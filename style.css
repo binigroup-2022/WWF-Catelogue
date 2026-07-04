@@ -668,10 +668,11 @@ section {
         box-shadow 0.8s ease;
 }
 
-/* If there are multiple images (like Journey), layout them side-by-side and allow more width */
+/* If there are multiple images (like Journey), layout them stacked vertically */
 .feature-image-wrapper:has(img + img) {
-    max-width: 720px;
+    max-width: 560px;
     display: flex;
+    flex-direction: column;
     gap: 16px;
     justify-content: center;
     align-items: center;
@@ -701,9 +702,10 @@ section {
     transition: filter 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* When side-by-side, images take half width */
+/* When stacked, images take full width and appropriate height to fit viewports */
 .feature-image-wrapper:has(img + img) img {
-    width: calc(50% - 8px);
+    width: 100%;
+    max-height: 35vh;
 }
 
 /* Text description is displayed naturally below the image on small screen heights / fallback */
